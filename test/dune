@@ -1,0 +1,3 @@
+(test
+ (name advent_of_code)
+ (libraries advent_of_code alcotest))
