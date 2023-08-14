@@ -37,6 +37,6 @@ let () =
 let () =
   print_endline "Day 6:";
   Printf.printf "Part 1: %d\n" (Advent_of_code.Day6.process1 "./input/day6/actual.txt");
-  (* Printf.printf "Part 2: %d\n" (Advent_of_code.Day6.process2 "./input/day6/actual.txt"); *)
+  Printf.printf "Part 2: %d\n" (Advent_of_code.Day6.process2 "./input/day6/actual.txt");
   print_newline ()
 ;;
