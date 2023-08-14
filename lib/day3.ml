@@ -14,40 +14,41 @@ let charset_of_string s = CharSet.of_seq (String.to_seq s)
 let process1 input_file =
   let rucksacks = input_file
     |> Common.read_file_lines 
-    |> List.map (fun line ->
+    |> Seq.map (fun line ->
       let half_len = (String.length line / 2) in
       charset_of_string (String.sub line 0 half_len), charset_of_string (String.sub line half_len half_len))
   in
   let messed_items = rucksacks 
-    |> List.map 
+    |> Seq.map 
       (fun rucksack -> 
         let (first_half, second_half) = rucksack in messed_items first_half second_half 
-        |> CharSet.to_seq
-        |> List.of_seq)
-    |> List.flatten
+        |> CharSet.to_seq)
+    |> Seq.flat_map (fun s -> s)
   in messed_items
-    |> List.map priority_of_item
-    |> List.fold_left Int.add 0 
+    |> Seq.map priority_of_item
+    |> Seq.fold_left Int.add 0
 ;;
 
 let process2 input_file =
   let rucksacks = input_file
     |> Common.read_file_lines
-    |> List.map charset_of_string
+    |> Seq.map charset_of_string
   in
-  let rec groups_of_3 acc l = match l with
-    | a::b::c::tail -> groups_of_3 ((a, b, c) :: acc) tail
-    | [] -> acc
-    | _ -> raise (Invalid_argument "Invalid file format")
+  let groups_of_3 r = match r () with
+    | Seq.Nil -> None
+    | Seq.Cons(a, rest) -> match rest () with
+      | Seq.Nil -> raise (Invalid_argument "Invalid file format")
+      | Seq.Cons(b, rest) -> match rest () with
+        | Seq.Nil -> raise (Invalid_argument "Invalid file format")
+        | Seq.Cons(c, rest) -> Some ((a, b, c), rest)
   in rucksacks
-    |> groups_of_3 []
-    |> List.map
+    |> Seq.unfold groups_of_3
+    |> Seq.map
       (fun group -> let (a, b, c) = group in a
       |> CharSet.inter b
       |> CharSet.inter c
-      |> CharSet.to_seq
-      |> List.of_seq)
-    |> List.flatten
-    |> List.map priority_of_item
-    |> List.fold_left Int.add 0
+      |> CharSet.to_seq)
+    |> Seq.flat_map (fun s -> s)
+    |> Seq.map priority_of_item
+    |> Seq.fold_left Int.add 0
 ;;

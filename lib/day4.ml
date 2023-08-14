@@ -31,11 +31,11 @@ let ( >>= ) = Range.(>>=);;
 
 let range_pairs input_file =
   let lines = input_file |> Common.read_file_lines in
-  let pairs = lines |> List.map (String.split_on_char ',') in 
+  let pairs = lines |> Seq.map (String.split_on_char ',') in 
   pairs 
-    |> List.map (List.map (String.split_on_char '-'))
-    |> List.map (List.map (List.map int_of_string))
-    |> List.map (fun pair -> match pair with
+    |> Seq.map (List.map (String.split_on_char '-'))
+    |> Seq.map (List.map (List.map int_of_string))
+    |> Seq.map (fun pair -> match pair with
       | [[ff; fl]; [sf; sl]] -> 
         Result.get_ok (Range.make ff fl), Result.get_ok (Range.make sf sl)
       | _ -> raise (Invalid_argument "Invalid file format"))
@@ -43,13 +43,13 @@ let range_pairs input_file =
 
 let process1 input_file = input_file
   |> range_pairs
-  |> List.filter (fun (first, second) -> first >>= second || second >>= first)
-  |> List.fold_left (fun acc _ -> acc + 1) 0
+  |> Seq.filter (fun (first, second) -> first >>= second || second >>= first)
+  |> Seq.fold_left (fun acc _ -> acc + 1) 0
 ;;
 
 let process2 input_file =
   let overlapping = input_file
     |> range_pairs
-    |> List.filter (fun (first, second) -> first |> Range.overlap second)
-  in overlapping |> List.fold_left (fun acc _ -> acc + 1) 0
+    |> Seq.filter (fun (first, second) -> first |> Range.overlap second)
+  in overlapping |> Seq.fold_left (fun acc _ -> acc + 1) 0
 ;;

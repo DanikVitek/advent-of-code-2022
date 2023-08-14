@@ -1,13 +1,13 @@
 let read_file_lines file_name =
   let channel = open_in file_name in
-  let rec read_lines acc =
+  let read_lines () =
     try
       let line = input_line channel in
-      read_lines (line :: acc)
+      Some (line, ())
     with End_of_file ->
       close_in channel;
-      acc
-  in read_lines []
+      None
+  in Seq.unfold read_lines ()
 ;;
 
 let str_split_at_char_once_opt sep s =
@@ -15,3 +15,4 @@ let str_split_at_char_once_opt sep s =
     |> Option.map (fun i -> 
       String.sub s 0 i,
       String.sub s (i + 1) (String.length s - i - 1))
+;;

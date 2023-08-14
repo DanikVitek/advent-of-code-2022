@@ -38,13 +38,13 @@ let points_of_round round = points_of_move round.me + points_of_outcome (outcome
 let process1 input_file =
   let rounds = input_file 
     |> Common.read_file_lines 
-    |> List.map (String.split_on_char ' ')
-    |> List.map (fun round -> match List.map move_of_string_opt round with
+    |> Seq.map (String.split_on_char ' ')
+    |> Seq.map (fun round -> match List.map move_of_string_opt round with
       | [Some opponent; Some me] -> {opponent; me}
       | _ -> raise (Invalid_argument "File is of invalid format"))
-  in
-  let points = List.map points_of_round rounds in
-  List.fold_left Int.add 0 points
+  in rounds
+    |> Seq.map points_of_round
+    |> Seq.fold_left Int.add 0
 ;;
 
 let move_of_string_opt = function
@@ -78,15 +78,15 @@ let points_of_round (opponent_move, needed_outcome) =
 ;;
 
 let process2 input_file =
-  let rounds = input_file 
+  let rounds = input_file
     |> Common.read_file_lines 
-    |> List.map (String.split_on_char ' ')
-    |> List.map (fun round -> match round with
+    |> Seq.map (String.split_on_char ' ')
+    |> Seq.map (fun round -> match round with
       | [op; oc] -> (match move_of_string_opt op, outcome_of_string_opt oc with
         | Some opponent_move, Some needed_outcome -> opponent_move, needed_outcome
         | _ -> raise (Invalid_argument "Invalid file format"))
       | _ -> raise (Invalid_argument "Invalid file format"))
-  in
-  let points = List.map points_of_round rounds in 
-  List.fold_left Int.add 0 points
+  in rounds
+    |> Seq.map points_of_round
+    |> Seq.fold_left Int.add 0
 ;;

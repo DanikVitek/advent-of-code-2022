@@ -9,8 +9,8 @@ module To_test = struct
   let (day4_part2: string -> int) = Advent_of_code.Day4.process2
   let (day5_part1: string -> string) = Advent_of_code.Day5.process1
   let (day5_part2: string -> string) = Advent_of_code.Day5.process2
-  let (day6_part1: string -> int) = Advent_of_code.Day6.process1
-  let (day6_part2: string -> int) = Advent_of_code.Day6.process2
+  let (day6_part1: string -> int option) = Advent_of_code.Day6.process1
+  let (day6_part2: string -> int option) = Advent_of_code.Day6.process2
 end
 
 let test_day1_part1 () =
@@ -44,18 +44,18 @@ let test_day5_part2 () =
   Alcotest.(check string) "same string" "MCD" (To_test.day5_part2 "../../../input/day5/test.txt")
 ;;
 let test_day6_part1 () =
-  Alcotest.(check int) "same int" 7 (To_test.day6_part1 "../../../input/day6/test1.txt");
-  Alcotest.(check int) "same int" 5 (To_test.day6_part1 "../../../input/day6/test2.txt");
-  Alcotest.(check int) "same int" 6 (To_test.day6_part1 "../../../input/day6/test3.txt");
-  Alcotest.(check int) "same int" 10 (To_test.day6_part1 "../../../input/day6/test4.txt");
-  Alcotest.(check int) "same int" 11 (To_test.day6_part1 "../../../input/day6/test5.txt");
+  Alcotest.(check (option int)) "same int" (Some 7) (To_test.day6_part1 "../../../input/day6/test1.txt");
+  Alcotest.(check (option int)) "same int" (Some 5) (To_test.day6_part1 "../../../input/day6/test2.txt");
+  Alcotest.(check (option int)) "same int" (Some 6) (To_test.day6_part1 "../../../input/day6/test3.txt");
+  Alcotest.(check (option int)) "same int" (Some 10) (To_test.day6_part1 "../../../input/day6/test4.txt");
+  Alcotest.(check (option int)) "same int" (Some 11) (To_test.day6_part1 "../../../input/day6/test5.txt");
 ;;
 let test_day6_part2 () =
-  Alcotest.(check int) "same int" 19 (To_test.day6_part2 "../../../input/day6/test1.txt");
-  Alcotest.(check int) "same int" 23 (To_test.day6_part2 "../../../input/day6/test2.txt");
-  Alcotest.(check int) "same int" 23 (To_test.day6_part2 "../../../input/day6/test3.txt");
-  Alcotest.(check int) "same int" 29 (To_test.day6_part2 "../../../input/day6/test4.txt");
-  Alcotest.(check int) "same int" 26 (To_test.day6_part2 "../../../input/day6/test5.txt");
+  Alcotest.(check (option int)) "same int" (Some 19) (To_test.day6_part2 "../../../input/day6/test1.txt");
+  Alcotest.(check (option int)) "same int" (Some 23) (To_test.day6_part2 "../../../input/day6/test2.txt");
+  Alcotest.(check (option int)) "same int" (Some 23) (To_test.day6_part2 "../../../input/day6/test3.txt");
+  Alcotest.(check (option int)) "same int" (Some 29) (To_test.day6_part2 "../../../input/day6/test4.txt");
+  Alcotest.(check (option int)) "same int" (Some 26) (To_test.day6_part2 "../../../input/day6/test5.txt");
 ;;
 
 let () =
