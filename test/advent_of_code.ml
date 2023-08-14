@@ -9,6 +9,7 @@ module To_test = struct
   let (day4_part2: string -> int) = Advent_of_code.Day4.process2
   let (day5_part1: string -> string) = Advent_of_code.Day5.process1
   let (day5_part2: string -> string) = Advent_of_code.Day5.process2
+  let (day6_part1: string -> int) = Advent_of_code.Day6.process1
 end
 
 let test_day1_part1 () =
@@ -41,6 +42,13 @@ let test_day5_part1 () =
 let test_day5_part2 () =
   Alcotest.(check string) "same string" "MCD" (To_test.day5_part2 "../../../input/day5/test.txt")
 ;;
+let test_day6_part1 () =
+  Alcotest.(check int) "same int" 7 (To_test.day6_part1 "../../../input/day6/test1.txt");
+  Alcotest.(check int) "same int" 5 (To_test.day6_part1 "../../../input/day6/test2.txt");
+  Alcotest.(check int) "same int" 6 (To_test.day6_part1 "../../../input/day6/test3.txt");
+  Alcotest.(check int) "same int" 10 (To_test.day6_part1 "../../../input/day6/test4.txt");
+  Alcotest.(check int) "same int" 11 (To_test.day6_part1 "../../../input/day6/test5.txt");
+;;
 
 let () =
   let open Alcotest in
@@ -55,5 +63,6 @@ let () =
     "day4-part2", [ test_case "Day4 Part2" `Quick test_day4_part2 ];
     "day5-part1", [ test_case "Day5 Part1" `Quick test_day5_part1 ];
     "day5-part2", [ test_case "Day5 Part2" `Quick test_day5_part2 ];
+    "day6-part1", [ test_case "Day6 Part1" `Quick test_day6_part1 ];
   ]
 ;;
