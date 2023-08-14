@@ -44,7 +44,7 @@ let process1 input_file =
       | _ -> raise (Invalid_argument "File is of invalid format"))
   in rounds
     |> Seq.map points_of_round
-    |> Seq.fold_left Int.add 0
+    |> Seq.fold_left (+) 0
 ;;
 
 let move_of_string_opt = function
@@ -88,5 +88,5 @@ let process2 input_file =
       | _ -> raise (Invalid_argument "Invalid file format"))
   in rounds
     |> Seq.map points_of_round
-    |> Seq.fold_left Int.add 0
+    |> Seq.fold_left (+) 0
 ;;

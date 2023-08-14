@@ -26,7 +26,7 @@ let process1 input_file =
     |> Seq.flat_map (fun s -> s)
   in messed_items
     |> Seq.map priority_of_item
-    |> Seq.fold_left Int.add 0
+    |> Seq.fold_left (+) 0
 ;;
 
 let process2 input_file =
@@ -50,5 +50,5 @@ let process2 input_file =
       |> CharSet.to_seq)
     |> Seq.flat_map (fun s -> s)
     |> Seq.map priority_of_item
-    |> Seq.fold_left Int.add 0
+    |> Seq.fold_left (+) 0
 ;;
