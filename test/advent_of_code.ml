@@ -12,6 +12,7 @@ module To_test = struct
   let (day6_part1: string -> int option) = Advent_of_code.Day6.process1
   let (day6_part2: string -> int option) = Advent_of_code.Day6.process2
   let (day7_part1: string -> int) = Advent_of_code.Day7.process1
+  let (day7_part2: string -> int) = Advent_of_code.Day7.process2
 end
 
 let test_day1_part1 () =
@@ -61,6 +62,9 @@ let test_day6_part2 () =
 let test_day7_part1 () =
   Alcotest.(check int) "same int" 95437 (To_test.day7_part1 "../../../input/day7/test.txt")
 ;;
+let test_day7_part2 () =
+  Alcotest.(check int) "same int" 24933642 (To_test.day7_part2 "../../../input/day7/test.txt")
+;;
 
 let () =
   let open Alcotest in
@@ -78,5 +82,6 @@ let () =
     "day6-part1", [ test_case "Day6 Part1" `Quick test_day6_part1 ];
     "day6-part2", [ test_case "Day6 Part2" `Quick test_day6_part2 ];
     "day7-part1", [ test_case "Day7 Part1" `Quick test_day7_part1 ];
+    "day7-part2", [ test_case "Day7 Part2" `Quick test_day7_part2 ];
   ]
 ;;
