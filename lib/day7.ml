@@ -75,9 +75,9 @@ module Fs = struct
     in to_string' 0 {name="/"; variant=Dir fs};
     output |> Buffer.to_bytes |> String.of_bytes
 
-  let of_terminal_output_seq commands =
-    let rec aux fs line path =
-      match line () with
+  let of_terminal_output_seq lines =
+    let rec aux fs lines path =
+      match lines () with
       | Seq.Nil -> fs
       | Seq.Cons(line, next_command) ->
         match line with
@@ -91,11 +91,18 @@ module Fs = struct
             | None -> match Scanf.sscanf_opt line "dir %s" (fun name -> {name; variant=Dir []}) with
               | Some dir -> aux (fs |> add_entry (path |> List.rev) dir) next_command path
               | None -> raise (Invalid_argument "Invalid file format")
-    in aux [] commands []
+    in aux [] lines []
 end
 
 let process1 input_file =
   let terminal_output = input_file |> Common.read_file_lines in
   let fs = Fs.of_terminal_output_seq terminal_output in
   fs |> Fs.to_string |> print_endline;
-  Common.todo ()
+  let rec traverse acc fs =
+    match fs with
+    | [] -> acc
+    | Fs.{variant=Dir contents; _}::rest ->
+      let size = Fs.size contents in
+      rest |> traverse (contents |> traverse (if size <= 100_000 then acc + size else acc))
+    | _::rest -> rest |> traverse acc
+  in fs |> traverse 0
