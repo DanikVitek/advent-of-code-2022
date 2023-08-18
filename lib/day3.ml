@@ -7,7 +7,6 @@ let priority_of_item item =
   | 'a'..'z' -> int_of_char item - 96
   | 'A'..'Z' -> int_of_char item - 38
   | _ -> raise (Invalid_argument "invalid item value")
-;;
 
 let charset_of_string s = CharSet.of_seq (String.to_seq s)
 
@@ -27,7 +26,6 @@ let process1 input_file =
   in messed_items
     |> Seq.map priority_of_item
     |> Seq.fold_left (+) 0
-;;
 
 let process2 input_file =
   let rucksacks = input_file
@@ -51,4 +49,3 @@ let process2 input_file =
     |> Seq.flat_map (fun s -> s)
     |> Seq.map priority_of_item
     |> Seq.fold_left (+) 0
-;;

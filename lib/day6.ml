@@ -9,10 +9,10 @@ let process1 input_file =
   let windows = signal |> string_windows 4 in
   let rec search_first_different i windows =
     match windows () with
-      | Seq.Nil -> None
-      | Seq.Cons (s, tl) -> match s |> String.to_seq |> List.of_seq with
-        | [a; b; c; d] when a != b && a != c && a != d && b != c && b != d && c != d -> Some (i + 4)
-        | _ -> search_first_different (i + 1) tl
+    | Seq.Nil -> None
+    | Seq.Cons (s, tl) -> match s |> String.to_seq |> List.of_seq with
+      | [a; b; c; d] when a <> b && a <> c && a <> d && b <> c && b <> d && c <> d -> Some (i + 4)
+      | _ -> search_first_different (i + 1) tl
   in windows |> search_first_different 0
 ;;
 
@@ -29,11 +29,11 @@ let process2 input_file =
   let windows = signal |> string_windows 14 in
   let rec search_first_different i windows =
     match windows () with
-      | Seq.Nil -> None
-      | Seq.Cons (s, tl) ->
-        let distinct = s |> String.to_seq |> Hashset.of_seq in
-        let distinct_len = Hashset.length distinct in
-        if distinct_len == String.length s then Some (i + 14)
-        else search_first_different (i + 1) tl
+    | Seq.Nil -> None
+    | Seq.Cons (s, tl) ->
+      let distinct = s |> String.to_seq |> Hashset.of_seq in
+      let distinct_len = Hashset.length distinct in
+      if distinct_len == String.length s then Some (i + 14)
+      else search_first_different (i + 1) tl
   in search_first_different 0 windows
 ;;

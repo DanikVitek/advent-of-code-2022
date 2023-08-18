@@ -40,3 +40,10 @@ let () =
   Printf.printf "Part 2: %d\n" (Advent_of_code.Day6.process2 "./input/day6/actual.txt" |> Option.get);
   print_newline ()
 ;;
+
+let () =
+  print_endline "Day 7:";
+  Printf.printf "Part 1: %d\n" (Advent_of_code.Day7.process1 "./input/day7/test.txt");
+  (* Printf.printf "Part 2: %d\n" (Advent_of_code.Day7.process2 "./input/day7/actual.txt"); *)
+  print_newline ()
+;;

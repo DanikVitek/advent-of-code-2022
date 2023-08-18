@@ -10,13 +10,12 @@ let elves input_file =
     | Some acc, Seq.Cons(Some cal, tl) -> elf_total (Some (acc + cal)) tl
     | Some acc, Seq.Nil -> acc, Seq.empty
     | Some acc, Seq.Cons(None, tl) -> acc, tl
-    | None, Seq.Nil -> raise (Invalid_argument "Invalid file format")
+    | None, Seq.Nil -> raise @@ Invalid_argument "Invalid file format"
   in Seq.unfold (* ('b -> ('a * 'b) option) -> 'b -> 'a Seq.t *)
-    (fun (cals: int option Seq.t) -> match cals() with
+    (fun cals -> match cals() with
       | Seq.Nil -> None
       | Seq.Cons(cal, tl) -> Some(elf_total cal tl))
     cals
-;;
 
 let process1 input_file =
   let (elves: int Seq.t) = elves input_file in
@@ -27,7 +26,6 @@ let process1 input_file =
       | Seq.Cons(h, t), Some m -> max' (Some (max h m)) t
     in s |> max' None
   in elves |> max_of_seq |> Option.get
-;;
 
 let process2 input_file =
   let top_three = input_file |> elves |> Seq.fold_left
@@ -37,5 +35,4 @@ let process2 input_file =
       | a, b, c when elf > c -> (a, b, elf)
       | _ -> t3)
     (Int.min_int, Int.min_int, Int.min_int)
-  in match top_three with a, b, c -> a + b + c
-;;
+  in let a, b, c = top_three in a + b + c
